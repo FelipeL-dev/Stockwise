@@ -45,9 +45,8 @@ public class ProductService : IProductService
         
         if (product is null)
            throw new NotFoundException("Product not found");
-
-        ProductResponseDto productResponseDto = MapToResponseDto(product);
-        return productResponseDto;
+        
+        return MapToResponseDto(product);;
     }
 
     public async Task<ProductResponseDto> CreateAsync(ProductCreateDto dto)
