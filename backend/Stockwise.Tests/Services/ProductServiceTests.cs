@@ -42,7 +42,7 @@ public class ProductServiceTests
             CategoryId = 1
         };
 
-        _context.Products.Add(product);
+        await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
         
         var result = await _productService.GetByIdAsync(product.Id);
@@ -78,7 +78,7 @@ public class ProductServiceTests
         await _context.SaveChangesAsync();
         
         var result = await _productService.GetAllAsync();
-        Assert.That(result, Is.Not.Null);
+        Assert.That(result.Count, Is.GreaterThan(0));
     }
 
     [Test]

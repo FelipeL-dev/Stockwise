@@ -1,0 +1,18 @@
+﻿# .NET
+**/bin/
+**/obj/
+**/TestResults/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Coverage
+**/coverage/
+*.coverage
+*.coveragexml

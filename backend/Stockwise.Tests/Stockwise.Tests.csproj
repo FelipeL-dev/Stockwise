@@ -25,4 +25,8 @@
       <ProjectReference Include="..\Stockwise.Api\Stockwise.Api.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="UnitTest1.cs" />
+    </ItemGroup>
+
 </Project>
