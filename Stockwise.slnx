@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="compose.yaml" />
+  </Folder>
+  <Project Path="backend/Stockwise.Api/Stockwise.Api.csproj" />
+  <Project Path="backend/Stockwise.Tests/Stockwise.Tests.csproj" />
+</Solution>

@@ -1,0 +1,16 @@
+﻿services:
+  db:
+    image: postgres:17
+    container_name: stockwise-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: stockwise
+      POSTGRES_USER: stockwise
+      POSTGRES_PASSWORD: stockwise_dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - stockwise_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  stockwise_postgres_data:

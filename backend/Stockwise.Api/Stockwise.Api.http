@@ -1,0 +1,52 @@
+##getproductbyasync
+GET http://localhost:5223/api/products/1
+
+### Get nonexistent product
+GET http://localhost:5223/api/products/999
+
+### Get all products
+GET http://localhost:5223/api/products
+Accept: application/json
+
+### Create product
+POST http://localhost:5223/api/products
+Content-Type: application/json
+
+{
+  "name": "Mechanical Keyboard",
+  "description": "75% mechanical keyboard",
+  "sku": "KB-002",
+  "price": 299.90,
+  "categoryId": 1
+}
+
+###
+POST  http://localhost:5223/api/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "sku": "",
+  "price": -10,
+  "categoryId": 0
+}
+
+### Update product
+PUT http://localhost:5223/api/products/2
+Content-Type: application/json
+
+{
+  "name": "Wireless Mechanical Keyboard",
+  "description": "75% wireless mechanical keyboard",
+  "sku": "KB-002",
+  "price": 349.90,
+  "categoryId": 1
+}
+### Verify update
+GET http://localhost:5223/api/products/2
+
+### Delete product
+DELETE http://localhost:5223/api/products/2
+
+### verify delete
+GET http://localhost:5223/api/Products/2
