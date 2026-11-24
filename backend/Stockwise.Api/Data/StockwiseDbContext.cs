@@ -24,9 +24,19 @@ public class StockwiseDbContext : DbContext
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
+        
+        modelBuilder.Entity<StockMovement>(entity =>
+        {
+            entity.HasOne(sm => sm.Product)
+                .WithMany(p => p.StockMovements)
+                .HasForeignKey(sm => sm.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
     }
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
+    
+    public DbSet<StockMovement> StockMovements { get; set; } = null!;
     public StockwiseDbContext(DbContextOptions<StockwiseDbContext> options)
         : base(options)
     {
