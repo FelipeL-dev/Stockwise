@@ -1,5 +1,4 @@
 ﻿using Stockwise.Api.Dtos;
-using Stockwise.Api.Entities;
 
 namespace Stockwise.Api.Services;
 
