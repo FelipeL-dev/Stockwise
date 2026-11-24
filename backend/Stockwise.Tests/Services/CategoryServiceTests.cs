@@ -72,9 +72,9 @@ public class CategoryServiceTests
     }
 
     [Test]
-    public async Task GetCategoryByIdAsync_WhenCategoryDoesNotExist_ThrowsNotFoundExcetion()
+    public void GetCategoryByIdAsync_WhenCategoryDoesNotExist_ThrowsNotFoundException()
     {
-        Assert.ThrowsAsync<NotFoundException>(() => _categoryService.GetByIdAsync(1));
+        Assert.ThrowsAsync<NotFoundException>(async () => await _categoryService.GetByIdAsync(1));
     }
 
     [Test]
@@ -118,7 +118,7 @@ public class CategoryServiceTests
     }
 
     [Test]
-    public async Task UpdateCategoryAsync_WhenCategoryDoesNotExist_ThrowsNotFoundExcetion()
+    public void UpdateCategoryAsync_WhenCategoryDoesNotExist_ThrowsNotFoundException()
     {
         var dto = new CategoryUpdateDto()
         {
@@ -136,7 +136,6 @@ public class CategoryServiceTests
             Id = 1,
             Name = "TestCategory",
             Description = "Test category description",
-            Products = []
         };
         _context.Categories.Add(category);
         await _context.SaveChangesAsync();
@@ -149,7 +148,7 @@ public class CategoryServiceTests
     }
 
     [Test]
-    public async Task DeleteCategoryAsync_WhenCategoryDoesNotExist_ThrowsNotFoundExcetion()
+    public void DeleteCategoryAsync_WhenCategoryDoesNotExist_ThrowsNotFoundException()
     {
         Assert.ThrowsAsync<NotFoundException>(() => _categoryService.DeleteAsync(1));
     }
