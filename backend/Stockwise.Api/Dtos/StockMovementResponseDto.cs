@@ -14,6 +14,10 @@ public class StockMovementResponseDto
     
     public StockMovementType Type { get; set; }
     
-    public int Quantity { get; set; }
+    public int OldQuantity { get; set; }
+    
+    public int Movement { get; set; }
+    
+    public int NewQuantity { get; set; }
     
 }

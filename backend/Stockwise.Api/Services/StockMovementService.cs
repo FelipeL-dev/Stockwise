@@ -18,16 +18,17 @@ public class StockMovementService : IStockMovementService
 
     private static StockMovementResponseDto MapToResponseDto(StockMovement stockMovement)
     {
-        StockMovementResponseDto dto = new()
+        return new StockMovementResponseDto()
         {
             Id = stockMovement.Id,
             ProductId = stockMovement.ProductId,
-            Quantity = stockMovement.Quantity,
+            Movement = stockMovement.Movement,
+            OldQuantity =  stockMovement.OldQuantity,
+            NewQuantity =  stockMovement.NewQuantity,
             CreatedAt = stockMovement.CreatedAt,
             Reason = stockMovement.Reason,
             Type = stockMovement.Type
         };
-        return dto;
     }
 
     public async Task<StockMovementResponseDto> RegisterIncomingAsync(int productId, StockMovementCreateDto dto)
@@ -41,14 +42,16 @@ public class StockMovementService : IStockMovementService
         {
             CreatedAt = DateTime.UtcNow,
             Reason = dto.Reason,
-            Quantity = dto.Quantity,
+            OldQuantity = product.Quantity,
+            Movement =  dto.Quantity,
+            NewQuantity = dto.Quantity + product.Quantity,
             Type = StockMovementType.Incoming,
             ProductId = product.Id,
             Product = product
         };
         
         _context.StockMovements.Add(stockMovement);
-        product.Quantity += stockMovement.Quantity;
+        product.Quantity += stockMovement.Movement;
         await _context.SaveChangesAsync();
         
         return MapToResponseDto(stockMovement);
@@ -67,7 +70,9 @@ public class StockMovementService : IStockMovementService
         StockMovement stockMovement = new()
         {
             CreatedAt = DateTime.UtcNow,
-            Quantity = dto.Quantity,
+            OldQuantity = product.Quantity,
+            Movement =  -dto.Quantity,
+            NewQuantity = product.Quantity - dto.Quantity,
             Type = StockMovementType.Outgoing,
             Reason = dto.Reason,
             ProductId = product.Id,
@@ -76,7 +81,7 @@ public class StockMovementService : IStockMovementService
         
         _context.StockMovements.Add(stockMovement);
         
-        product.Quantity -= stockMovement.Quantity;
+        product.Quantity += stockMovement.Movement;
         await _context.SaveChangesAsync();
         return MapToResponseDto(stockMovement);
     }
@@ -88,10 +93,15 @@ public class StockMovementService : IStockMovementService
         if(product == null)
             throw new NotFoundException("Product not found");
         
+        if(product.Quantity  == dto.Quantity)
+                throw new  BusinessException("Adjustment quantity must differ from current stock");
+        
         StockMovement stockMovement = new()
         {
             CreatedAt = DateTime.UtcNow,
-            Quantity = dto.Quantity,
+            NewQuantity = dto.Quantity,
+            OldQuantity = product.Quantity,
+            Movement = dto.Quantity - product.Quantity,
             Type = StockMovementType.Adjustment,
             Reason =  dto.Reason,
             ProductId =  productId,
@@ -125,7 +135,9 @@ public class StockMovementService : IStockMovementService
             {
                 Id = m.Id,
                 ProductId = m.ProductId,
-                Quantity = m.Quantity,
+                OldQuantity = m.OldQuantity,
+                NewQuantity = m.NewQuantity,
+                Movement =  m.Movement,
                 CreatedAt = m.CreatedAt,
                 Reason = m.Reason,
                 Type = m.Type
