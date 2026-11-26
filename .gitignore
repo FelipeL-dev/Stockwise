@@ -16,3 +16,6 @@
 **/coverage/
 *.coverage
 *.coveragexml
+
+# JetBrains Rider user-specific settings
+*.DotSettings.user
